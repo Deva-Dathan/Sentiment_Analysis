@@ -17,6 +17,7 @@ session_start();
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
      <link rel="icon" type="image/x-icon" href="../images/sentiment-analysis.png">
      <style>
         /* Googlefont Poppins CDN Link */
@@ -287,12 +288,23 @@ nav .profile-details i{
 
 /* left box */
 .home-content .sales-boxes .recent-sales{
-  width: 65%;
+  width: 100%;
+  max-width: 1000px;
+  /* margin: 0 auto; */
   background: #fff;
   padding: 20px 30px;
   margin: 0 20px;
   border-radius: 12px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+@media screen and (max-width: 600px) {
+  .recent-sales {
+    max-width: 100%; /* Adjust maximum width for smaller screens */
+  }
 }
 .home-content .sales-boxes .sales-details{
   display: flex;
@@ -529,121 +541,17 @@ nav .profile-details i{
     <div class="home-content">
 
       <div class="sales-boxes">
-        <div class="recent-sales box">
-          <div class="title">Recent Sales</div>
-          <div class="sales-details">
-            <ul class="details">
-              <li class="topic">Date</li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-            </ul>
-            <ul class="details">
-            <li class="topic">Customer</li>
-            <li><a href="#">Alex Doe</a></li>
-            <li><a href="#">David Mart</a></li>
-            <li><a href="#">Roe Parter</a></li>
-            <li><a href="#">Diana Penty</a></li>
-            <li><a href="#">Martin Paw</a></li>
-            <li><a href="#">Doe Alex</a></li>
-            <li><a href="#">Aiana Lexa</a></li>
-            <li><a href="#">Rexel Mags</a></li>
-             <li><a href="#">Tiana Loths</a></li>
-          </ul>
-          <ul class="details">
-            <li class="topic">Sales</li>
-            <li><a href="#">Delivered</a></li>
-            <li><a href="#">Pending</a></li>
-            <li><a href="#">Returned</a></li>
-            <li><a href="#">Delivered</a></li>
-            <li><a href="#">Pending</a></li>
-            <li><a href="#">Returned</a></li>
-            <li><a href="#">Delivered</a></li>
-             <li><a href="#">Pending</a></li>
-            <li><a href="#">Delivered</a></li>
-          </ul>
-          <ul class="details">
-            <li class="topic">Total</li>
-            <li><a href="#">$204.98</a></li>
-            <li><a href="#">$24.55</a></li>
-            <li><a href="#">$25.88</a></li>
-            <li><a href="#">$170.66</a></li>
-            <li><a href="#">$56.56</a></li>
-            <li><a href="#">$44.95</a></li>
-            <li><a href="#">$67.33</a></li>
-             <li><a href="#">$23.53</a></li>
-             <li><a href="#">$46.52</a></li>
-          </ul>
-          </div>
-          <div class="button">
-            <a href="#">See All</a>
-          </div>
+        <div class="col-md-11 recent-sales box">
+        <div class="title font-weight-bold">TEXT ANALYSIS</div><br>
+        
+        <div class="">
+        <textarea name="" id="" cols="110" rows="15"></textarea>
         </div>
-        <div class="top-sales box">
-          <div class="title">Top Seling Product</div>
-          <ul class="top-sales-details">
-            <li>
-            <a href="#">
-              <img src="images/sunglasses.jpg" alt="">
-              <span class="product">Vuitton Sunglasses</span>
-            </a>
-            <span class="price">$1107</span>
-          </li>
-          <li>
-            <a href="#">
-               <img src="images/jeans.jpg" alt="">
-              <span class="product">Hourglass Jeans </span>
-            </a>
-            <span class="price">$1567</span>
-          </li>
-          <li>
-            <a href="#">
-             <img src="images/nike.jpg" alt="">
-              <span class="product">Nike Sport Shoe</span>
-            </a>
-            <span class="price">$1234</span>
-          </li>
-          <li>
-            <a href="#">
-              <img src="images/scarves.jpg" alt="">
-              <span class="product">Hermes Silk Scarves.</span>
-            </a>
-            <span class="price">$2312</span>
-          </li>
-          <li>
-            <a href="#">
-              <img src="images/blueBag.jpg" alt="">
-              <span class="product">Succi Ladies Bag</span>
-            </a>
-            <span class="price">$1456</span>
-          </li>
-          <li>
-            <a href="#">
-              <img src="images/bag.jpg" alt="">
-              <span class="product">Gucci Womens's Bags</span>
-            </a>
-            <span class="price">$2345</span>
-          <li>
-            <a href="#">
-              <img src="images/addidas.jpg" alt="">
-              <span class="product">Addidas Running Shoe</span>
-            </a>
-            <span class="price">$2345</span>
-          </li>
-<li>
-            <a href="#">
-             <img src="images/shirt.jpg" alt="">
-              <span class="product">Bilack Wear's Shirt</span>
-            </a>
-            <span class="price">$1245</span>
-          </li>
-          </ul>
+        
+
+
         </div>
-      </div>
+        </div>
     </div>
   </section>
 
@@ -658,6 +566,7 @@ sidebarBtn.onclick = function() {
   sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
 }
  </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

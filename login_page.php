@@ -61,14 +61,14 @@ if(isset($_POST['u_login']))
             $_SESSION['u_username'] = $username;
             $_SESSION['u_name'] = $row['u_name'];
             $_SESSION['u_role'] = $row['u_role'];
-            header("Location: admin_dash.php");
+            header("Location: Admin/admin_dash.php");
         }
         elseif($row['u_role'] == 'Logined User')
         {
             $_SESSION['u_username'] = $username;
             $_SESSION['u_name'] = $row['u_name'];
             $_SESSION['u_role'] = $row['u_role'];
-            header("Location: logined_user_dash.php");  
+            header("Location: Logined_User/logined_user_dash.php");  
         }
         else
         {

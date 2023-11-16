@@ -32,7 +32,7 @@ session_start();
   position: fixed;
   height: 100%;
   width: 240px;
-  background: #0A2558;
+  background: #f5f5f5;
   transition: all 0.5s ease;
 }
 .sidebar.active{
@@ -46,14 +46,15 @@ session_start();
 .sidebar .logo-details i{
   font-size: 28px;
   font-weight: 500;
-  color: #fff;
+  color: #000;
   min-width: 60px;
   text-align: center
 }
 .sidebar .logo-details .logo_name{
-  color: #fff;
-  font-size: 24px;
+  color: #000;
+  font-size: 16px;
   font-weight: 500;
+  font-weight: bold;
 }
 .sidebar .nav-links{
   margin-top: 10px;
@@ -73,18 +74,23 @@ session_start();
 }
 .sidebar .nav-links li a.active{
   background: #081D45;
+  border-radius: 0px 25px 25px 0px;
 }
 .sidebar .nav-links li a:hover{
   background: #081D45;
+  border-radius: 0px 25px 25px 0px;
+  color:white;
 }
 .sidebar .nav-links li i{
   min-width: 60px;
   text-align: center;
   font-size: 18px;
-  color: #fff;
+  color: #000;
+  font-weight: bold;
 }
 .sidebar .nav-links li a .links_name{
-  color: #fff;
+  color: #000;
+  font-weight: bold;
   font-size: 15px;
   font-weight: 400;
   white-space: nowrap;
@@ -110,7 +116,7 @@ session_start();
   display: flex;
   justify-content: space-between;
   height: 80px;
-  background: #fff;
+  background: #f5f5f5;
   display: flex;
   align-items: center;
   position: fixed;
@@ -118,7 +124,6 @@ session_start();
   left: 240px;
   z-index: 100;
   padding: 0 20px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   transition: all 0.5s ease;
 }
 .sidebar.active ~ .home-section nav{
@@ -470,38 +475,38 @@ nav .profile-details i{
       <ul class="nav-links">
         <li>
           <a href="#" class="active">
-            <i class='bx bx-grid-alt' ></i>
-            <span class="links_name">Dashboard</span>
+            <i class='bx bx-grid-alt' style="color:#fff; font-weight:bold;"></i>
+            <span class="links_name" style="color:#fff; font-weight:bold;">Dashboard</span>
           </a>
         </li>
         <li>
           <a href="#">
-            <i class='bx bx-box' ></i>
-            <span class="links_name">Text Analysis</span>
+          <i class='bx bx-font'></i>
+            <span class="links_name" style="font-weight:bold;">Text Analysis</span>
           </a>
         </li>
         <li>
           <a href="#">
-            <i class='bx bx-list-ul' ></i>
-            <span class="links_name">File Analysis</span>
+          <i class='bx bx-file-blank'></i>
+            <span class="links_name" style="font-weight:bold;">File Analysis</span>
           </a>
         </li>
         <li>
           <a href="#">
-            <i class='bx bx-pie-chart-alt-2' ></i>
-            <span class="links_name">Audio Analysis</span>
+          <i class='bx bx-music'></i>
+            <span class="links_name" style="font-weight:bold;">Audio Analysis</span>
           </a>
         </li>
         <li>
           <a href="#">
             <i class='bx bx-cog' ></i>
-            <span class="links_name">Setting</span>
+            <span class="links_name" style="font-weight:bold;">Settings</span>
           </a>
         </li>
         <li class="log_out">
           <a href="#">
             <i class='bx bx-log-out'></i>
-            <span class="links_name">Log out</span>
+            <span class="links_name" style="font-weight:bold;">Log out</span>
           </a>
         </li>
       </ul>

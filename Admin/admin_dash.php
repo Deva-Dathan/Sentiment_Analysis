@@ -17,6 +17,7 @@ session_start();
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="icon" type="image/x-icon" href="../images/sentiment-analysis.png">
      <style>
         /* Googlefont Poppins CDN Link */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
@@ -472,37 +473,37 @@ nav .profile-details i{
     </div>
       <ul class="nav-links">
         <li>
-          <a href="#" class="active">
+          <a href="admin_dash.php" class="active">
             <i class='bx bx-grid-alt' style="color:#fff; font-weight:bold;"></i>
             <span class="links_name" style="color:#fff; font-weight:bold;">Dashboard</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="text_analysis.php">
           <i class='bx bx-font'></i>
             <span class="links_name" style="font-weight:bold;">Text Analysis</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="file_analysis.php">
           <i class='bx bx-file-blank'></i>
             <span class="links_name" style="font-weight:bold;">File Analysis</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="audio_analysis.php">
           <i class='bx bx-music'></i>
             <span class="links_name" style="font-weight:bold;">Audio Analysis</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="admin_settings.php">
             <i class='bx bx-cog' ></i>
             <span class="links_name" style="font-weight:bold;">Settings</span>
           </a>
         </li>
         <li class="log_out">
-          <a href="#">
+          <a href="logout.php">
             <i class='bx bx-log-out'></i>
             <span class="links_name" style="font-weight:bold;">Log out</span>
           </a>

@@ -303,7 +303,7 @@ textarea {
 }
 @media screen and (max-width: 600px) {
   .recent-sales {
-    max-width: 100%; /* Adjust maximum width for smaller screens */
+    max-width: 100%;
   }
 }
 .home-content .sales-boxes .sales-details{
@@ -314,7 +314,6 @@ textarea {
 .sales-boxes .box .title{
   font-size: 24px;
   font-weight: 500;
-  /* margin-bottom: 10px; */
 }
 .sales-boxes .sales-details li.topic{
   font-size: 20px;
@@ -543,11 +542,27 @@ textarea {
       <div class="sales-boxes">
         <div class="col-md-11 recent-sales box">
         <div class="title font-weight-bold">TEXT ANALYSIS</div><br>
-        
-        <div class="">
-        <textarea name="" id="" cols="110" rows="15"></textarea>
+        <form method="POST" enctype="multipart/form-data">
+        <div>
+        <textarea name="search_fld" id="search_fld" cols="110" rows="15" placeholder="ENTER THE TEXT HERE FOR ANALYSIS"></textarea>
         </div>
+        <input type="submit" name="analyse_btn" class="btn btn-primary" value="Submit">
+</form>
         
+<?php
+include('../vendor/autoload.php');
+use Sentiment\Analyzer;
+if(isset($_POST['analyse_btn']))
+{
+ $text_analysis = $_POST['search_fld'];
+ $obj=new Analyzer();
+ $result=$obj->getSentiment($text_analysis);
+ $positive = $result['pos'];
+ $negative = $result['neg'];
+ $neutral = $result['neu'];
+
+}
+ ?>
 
 
         </div>

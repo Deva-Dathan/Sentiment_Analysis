@@ -10,10 +10,12 @@
         input[type=email],input[type=passowrd]
         {
             width:25vw;
-        }
+        }   
     </style>
   </head>
   <body>
+
+
 
 <div class="container min-vh-100 d-flex justify-content-center align-items-center">
   <form method="POST">

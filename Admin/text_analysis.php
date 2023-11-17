@@ -545,8 +545,11 @@ textarea {
         <form method="POST" enctype="multipart/form-data">
         <div>
         <textarea name="search_fld" id="search_fld" cols="110" rows="15" placeholder="ENTER THE TEXT HERE FOR ANALYSIS"></textarea>
-        </div>
-        <input type="submit" name="analyse_btn" class="btn btn-primary" value="Submit">
+        </div><br>
+        <input type="submit" name="analyse_btn" class="btn btn-dark" value="Analyse Text">
+        <input type="submit" name="analyse_btn" class="btn btn-success" value="View Result">
+        <input type="submit" name="analyse_btn" class="btn btn-secondary" value="View Bar Graph">
+        <input type="submit" name="analyse_btn" class="btn btn-primary" value="View Pie Chart">
 </form>
         
 <?php

@@ -12,7 +12,7 @@ session_start();
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
-    <title> Dashboard -- Sentiment Analysis</title>
+    <title> Text Analysis -- Sentiment Analysis</title>
     <link rel="stylesheet" href="style.css">
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -474,6 +474,36 @@ textarea {
     width: calc(100% - 60px);
   }
 }
+
+#loading-bar {
+            display: none;
+            background-color: #f1f1f1;
+            width: 100%;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            color: #333;
+            position: relative;
+        }
+
+        #progress {
+            width: 0;
+            height: 100%;
+            background-color: #4caf50;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: progressAnimation 3s ease-in-out forwards;
+        }
+
+        @keyframes progressAnimation {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 100%;
+            }
+        }
      </style>
    </head>
 <body>
@@ -542,36 +572,160 @@ textarea {
       <div class="sales-boxes">
         <div class="col-md-11 recent-sales box">
         <div class="title font-weight-bold">TEXT ANALYSIS</div><br>
-        <form method="POST" enctype="multipart/form-data">
+        <form id="sentiment-form" method="POST" enctype="multipart/form-data">
         <div>
-        <textarea name="search_fld" id="search_fld" cols="110" rows="15" placeholder="ENTER THE TEXT HERE FOR ANALYSIS"></textarea>
+        <textarea name="search_fld" id="search_fld" cols="110" rows="13" placeholder="ENTER THE TEXT HERE FOR ANALYSIS"></textarea>
         </div><br>
+
+        <div id="loading-bar"><div id="progress"></div></div>
+
         <input type="submit" name="analyse_btn" class="btn btn-dark" value="Analyse Text">
         <input type="submit" name="analyse_btn" class="btn btn-success" value="View Result">
         <input type="submit" name="analyse_btn" class="btn btn-secondary" value="View Bar Graph">
         <input type="submit" name="analyse_btn" class="btn btn-primary" value="View Pie Chart">
 </form>
-        
+<hr>
+
 <?php
 include('../vendor/autoload.php');
 use Sentiment\Analyzer;
-if(isset($_POST['analyse_btn']))
+if($_SERVER["REQUEST_METHOD"] == "POST")
 {
  $text_analysis = $_POST['search_fld'];
  $obj=new Analyzer();
  $result=$obj->getSentiment($text_analysis);
- $positive = $result['pos'];
- $negative = $result['neg'];
- $neutral = $result['neu'];
-
-}
  ?>
+
+<div class="card">
+  <div class="card-header text-center">SENTIMENT ANALYSIS SCORE</div>
+  <div class="card-body">
+    <h5 class="card-title"><b><?php echo $text_analysis;?></b></h5>
+    <p class="card-text">
+
+
+ <div class="container">
+ <div style="font-size:28px;">
+
+ <div class="row">
+ <label class="font-weight-bold text-center">POSITIVE : </label>
+ <div class="progress ml-3 mt-2" style="width:20vw; height:4vh;">
+ <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $result['pos']*100;?>%;" aria-valuenow="<?php echo $result['pos']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['pos'];?>%</div>
+ </div>
+ </div>
+
+
+ <div class="row">
+ <label class="font-weight-bold text-center">NEGATIVE : </label>
+ <div class="progress ml-3 mt-2" style="width:20vw; height:4vh;">
+ <div class="progress-bar bg-danger" role="progressbar" style="width: <?php echo $result['neg']*100;?>%;" aria-valuenow="<?php echo $result['neg']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['neg'];?>%</div>
+ </div>
+ </div>
+
+ <div class="row">
+ <label class="font-weight-bold text-center">NEUTRAL : </label>
+ <div class="progress ml-3 mt-2" style="width:20vw; height:4vh;">
+ <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo $result['neu']*100;?>%;" aria-valuenow="<?php echo $result['neu']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['neu'];?>%</div>
+ </div>
+ </div>
+
+ </div>
+ </div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ </div>
+ </div>
+
+
+
+
+
+ <?php
+ if($result['pos'] > $result['neg'] && $result['pos'] > $result['neu'])
+ {
+?>
+<div class="row" style="margin-left:475px;">
+ <h1 class='text-center' style='font-size:28px;'>FINAL RESULT : </h1>
+ <h1 class='text-center' style='font-size:28px;color:green; fontweight:bold;'>&nbspPOSITIVE</h1>
+</div>
+<?php
+ }
+ elseif ($result['neg'] > $result['pos'] && $result['neg'] > $result['neu'])
+ {
+ ?>
+ <div class="row" style="margin-left:475px;">
+ <h1 class='text-center' style='font-size:28px;'>FINAL RESULT : </h1>
+ <h1 class='text-center' style='font-size:28px;color:red; fontweight:bold;'>&nbspNEGATIVE</h1>
+</div>
+ <?php
+ }
+ else
+ {
+ ?>
+ <div class="row" style="margin-left:475px;">
+ <h1 class='text-center' style='font-size:28px;'>FINAL RESULT : </h1>
+ <h1 class='text-center' style='font-size:28px;color:blue; fontweight:bold;'>&nbspNEUTRAL</h1>
+</div>
+
+
+
+
+
+    </p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+  <div class="card-footer text-muted">GENERATED BY MACHINE LEARNING</div>
+</div>
+
+
+<?php
+ }
+}
+?>
+
 
 
         </div>
         </div>
     </div>
   </section>
+
+  <script>
+        function submitForm() {
+            var textInput = document.getElementById('text-input').value;
+            var loadingBar = document.getElementById('loading-bar');
+            
+            // Show loading bar
+            loadingBar.style.display = 'block';
+
+            // Make Ajax request
+            fetch('sentiment_analysis.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'text=' + encodeURIComponent(textInput),
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Hide loading bar when the request is complete
+                loadingBar.style.display = 'none';
+                alert(data); // You can replace this with your own logic to handle the response
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle error here
+            });
+        }
+    </script>
 
   <script>
    let sidebar = document.querySelector(".sidebar");

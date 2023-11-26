@@ -19,6 +19,7 @@ session_start();
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
      <link rel="icon" type="image/x-icon" href="../images/sentiment-analysis.png">
+     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css">
      <style>
         /* Googlefont Poppins CDN Link */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
@@ -474,36 +475,13 @@ textarea {
     width: calc(100% - 60px);
   }
 }
-
-#loading-bar {
-            display: none;
-            background-color: #f1f1f1;
-            width: 100%;
-            height: 30px;
-            text-align: center;
-            line-height: 30px;
-            color: #333;
-            position: relative;
-        }
-
-        #progress {
-            width: 0;
-            height: 100%;
-            background-color: #4caf50;
-            position: absolute;
-            top: 0;
-            left: 0;
-            animation: progressAnimation 3s ease-in-out forwards;
-        }
-
-        @keyframes progressAnimation {
-            0% {
-                width: 0;
-            }
-            100% {
-                width: 100%;
-            }
-        }
+th, td{
+  height:10vh;
+  width:15vw;
+  vertical-align: middle;
+  text-align:center;
+  padding: 15px;;
+}
      </style>
    </head>
 <body>
@@ -585,7 +563,6 @@ textarea {
           <div class="col-md-3 m-1"><input type="submit" name="pie_btn" class="btn btn-primary w-100" value="View Pie Chart" style="width:17vw;"></div>
           </div>
 </form>
-<hr>
 
 <?php
 include('../vendor/autoload.php');
@@ -596,21 +573,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
  $obj=new Analyzer();
  $result=$obj->getSentiment($text_analysis);
  ?>
-
+<hr>
 <div class="card">
   <div class="card-header text-center">SENTIMENT ANALYSIS SCORE</div>
   <div class="card-body">
-    <h5 class="card-title"><b><?php echo $text_analysis;?></b></h5>
+    <br>
+    <h5 class="card-title text-center"><b><?php echo $text_analysis;?></b></h5>
     <p class="card-text">
 
 
  <div class="container">
  <div style="font-size:28px;">
- <table border=1>
+ <table class="table d-flex justify-content-center">
  <div class="row">
  <tr>
- <th><label class="font-weight-bold text-center">POSITIVE : </label></th>
- <td><div class="progress ml-3 mt-2" style="width:20vw; height:4vh;">
+ <th scope="col"><label class="font-weight-bold text-center">POSITIVE</label></th>
+ <td><div class="progress ml-3 mt-1" style="width:20vw; height:4vh;">
  <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $result['pos']*100;?>%;" aria-valuenow="<?php echo $result['pos']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['pos'];?>%</div>
  </div>
  </div></td>
@@ -618,69 +596,62 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
  <div class="row">
  <tr>
- <th><label class="font-weight-bold text-center">NEGATIVE : </label></th>
- <td><div class="progress ml-3 mt-2" style="width:20vw; height:4vh;">
+ <th scope="col"><label class="font-weight-bold text-center">NEGATIVE</label></th>
+ <td><div class="progress ml-3 mt-1" style="width:20vw; height:4vh;">
  <div class="progress-bar bg-danger" role="progressbar" style="width: <?php echo $result['neg']*100;?>%;" aria-valuenow="<?php echo $result['neg']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['neg'];?>%</div>
  </div>
  </div></td>
  </tr>
 
  <div class="row">
- <th><label class="font-weight-bold text-center">NEUTRAL : </label></th>
- <td><div class="progress ml-3 mt-2" style="width:20vw; height:4vh;">
+ <tr>
+ <th scope="col"><label class="font-weight-bold text-center">NEUTRAL</label></th>
+ <td><div class="progress ml-3 mt-1" style="width:20vw; height:4vh;">
  <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo $result['neu']*100;?>%;" aria-valuenow="<?php echo $result['neu']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['neu'];?>%</div>
  </div>
  </div></td>
  </tr>
 
 
- </table>
- </div>
- </div>
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- </div>
- </div>
-
-
-
-
-
  <?php
  if($result['pos'] > $result['neg'] && $result['pos'] > $result['neu'])
  {
 ?>
+<tr>
 <div class="row" style="margin-left:475px;">
- <h1 class='text-center' style='font-size:28px;'>FINAL RESULT : </h1>
- <h1 class='text-center' style='font-size:28px;color:green; fontweight:bold;'>&nbspPOSITIVE</h1>
+<th colspan="2"><h1 class='text-center' style='font-size:28px; font-weight:bold;'>FINAL RESULT : <p style='color:green;'>POSITIVE</p></h1></th>
 </div>
+</tr>
 <?php
  }
  elseif ($result['neg'] > $result['pos'] && $result['neg'] > $result['neu'])
  {
  ?>
+ <tr>
  <div class="row" style="margin-left:475px;">
- <h1 class='text-center' style='font-size:28px;'>FINAL RESULT : </h1>
- <h1 class='text-center' style='font-size:28px;color:red; fontweight:bold;'>&nbspNEGATIVE</h1>
+ <th colspan="2"><h1 class='text-center' style='font-size:28px;'>FINAL RESULT : </h1>
+ <h1 class='text-center' style='font-size:28px;color:red; font-weight:bold;'>NEGATIVE</h1></th>
 </div>
+</tr>
  <?php
  }
  else
  {
  ?>
+ <tr>
  <div class="row" style="margin-left:475px;">
- <h1 class='text-center' style='font-size:28px;'>FINAL RESULT : </h1>
- <h1 class='text-center' style='font-size:28px;color:blue; fontweight:bold;'>&nbspNEUTRAL</h1>
+ <th colspan="2"><h1 class='text-center' style='font-size:28px;'>FINAL RESULT : </h1>
+ <h1 class='text-center' style='font-size:28px;color:blue; font-weight:bold;'>NEUTRAL</h1></th>
 </div>
+</tr>
+
+ </table>
+ </div>
+ </div>
+ 
+ </div>
+ </div>
+
 
 
 
@@ -747,5 +718,6 @@ sidebarBtn.onclick = function() {
  </script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js"></script>
 </body>
 </html>

@@ -579,10 +579,11 @@ textarea {
 
         <div id="loading-bar"><div id="progress"></div></div>
 
-        <input type="submit" name="analyse_btn" class="btn btn-dark" value="Analyse Text">
-        <input type="submit" name="analyse_btn" class="btn btn-success" value="View Result">
-        <input type="submit" name="analyse_btn" class="btn btn-secondary" value="View Bar Graph">
-        <input type="submit" name="analyse_btn" class="btn btn-primary" value="View Pie Chart">
+          <div class="row">
+          <div class="col-md-3 m-1"><input type="submit" name="analyse_btn" class="btn btn-success w-100" value="Analyse Text"></div>
+          <div class="col-md-3 m-1"><input type="submit" name="bar_btn" class="btn btn-secondary w-100" value="View Bar Graph" style="width:17vw;"></div>
+          <div class="col-md-3 m-1"><input type="submit" name="pie_btn" class="btn btn-primary w-100" value="View Pie Chart" style="width:17vw;"></div>
+          </div>
 </form>
 <hr>
 
@@ -605,29 +606,35 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
  <div class="container">
  <div style="font-size:28px;">
-
+ <table border=1>
  <div class="row">
- <label class="font-weight-bold text-center">POSITIVE : </label>
- <div class="progress ml-3 mt-2" style="width:20vw; height:4vh;">
+ <tr>
+ <th><label class="font-weight-bold text-center">POSITIVE : </label></th>
+ <td><div class="progress ml-3 mt-2" style="width:20vw; height:4vh;">
  <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $result['pos']*100;?>%;" aria-valuenow="<?php echo $result['pos']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['pos'];?>%</div>
  </div>
- </div>
-
+ </div></td>
+ </tr>
 
  <div class="row">
- <label class="font-weight-bold text-center">NEGATIVE : </label>
- <div class="progress ml-3 mt-2" style="width:20vw; height:4vh;">
+ <tr>
+ <th><label class="font-weight-bold text-center">NEGATIVE : </label></th>
+ <td><div class="progress ml-3 mt-2" style="width:20vw; height:4vh;">
  <div class="progress-bar bg-danger" role="progressbar" style="width: <?php echo $result['neg']*100;?>%;" aria-valuenow="<?php echo $result['neg']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['neg'];?>%</div>
  </div>
- </div>
+ </div></td>
+ </tr>
 
  <div class="row">
- <label class="font-weight-bold text-center">NEUTRAL : </label>
- <div class="progress ml-3 mt-2" style="width:20vw; height:4vh;">
+ <th><label class="font-weight-bold text-center">NEUTRAL : </label></th>
+ <td><div class="progress ml-3 mt-2" style="width:20vw; height:4vh;">
  <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo $result['neu']*100;?>%;" aria-valuenow="<?php echo $result['neu']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['neu'];?>%</div>
  </div>
- </div>
+ </div></td>
+ </tr>
 
+
+ </table>
  </div>
  </div>
  

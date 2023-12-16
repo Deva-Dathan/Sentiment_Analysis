@@ -17,7 +17,7 @@ session_start();
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
      <link rel="icon" type="image/x-icon" href="../images/sentiment-analysis.png">
      <style>
         /* Googlefont Poppins CDN Link */
@@ -573,12 +573,94 @@ textarea {
         <div class="col-md-11 recent-sales box">
         <div class="title font-weight-bold">FILE ANALYSIS</div><br>
 
+        <form method="POST" enctype="multipart/form-data">
 
-        <div class="mb-3">
-  <label for="formFile" class="form-label">Default file input example</label>
-  <input class="form-control" type="file" id="formFile">
+        <label for="formFile" class="form-label font-weight-bold">UPLOAD THE FILE TO ANALYSIS</label>
+<div class="input-group mb-3">
+  <div class="custom-file">
+    <input type="file" name="fileToUpload"  class="custom-file-input" id="inputGroupFile01" required>
+    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+  </div>
 </div>
 
+<!-- <div class="mb-3">
+  <label for="formFile" class="form-label">Default file input example</label>
+  <input class="form-control" type="file" id="formFile">
+</div> -->
+
+<div class="mb-3">
+    <button class="btn btn-primary" name="submit_file" type="submit">Upload File</button>
+  </div>
+  </form>
+
+
+  <?php
+include('../vendor/autoload.php');
+use Sentiment\Analyzer;
+// Open the CSV file for reading
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $targetDirectory = "../uploads/";
+    $targetFile = $targetDirectory . basename($_FILES["fileToUpload"]["name"]);
+
+    $u_file=move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $targetFile);
+
+    $file = fopen($targetFile, 'r');
+
+// Check if the file was opened successfully
+if ($file) {
+    // Output a table header
+    echo '<table border="1">';
+    echo '<tr><th>Review Text</th><th>Sentiment Score</th><th>Final Result</th>';
+
+    // Read and display each line of the CSV file
+    while (($data = fgetcsv($file)) !== false) {
+        echo '<tr>';
+        foreach ($data as $value) {
+            echo '<td>' . $value . '</td>';
+        }
+
+
+
+    $text_analysis = $value;
+    $obj=new Analyzer();
+    $result=$obj->getSentiment($text_analysis);
+
+    $positive = $result['pos'];
+    $negative = $result['neg'];
+    $neutral = $result['neu'];
+    // echo "Positive:" . $positive."<br>";
+    // echo "Negative:" . $negative."<br>";
+    // echo "Neutral:" . $neutral."<br>";
+    
+    if($positive > $negative && $positive > $neutral)
+    {
+        echo '<td>' . $positive. '</td>';
+        echo '<td> POSITIVE </td>';
+    }
+    elseif ($negative > $positive && $negative > $neutral) 
+    {
+        echo '<td>' . $negative. '</td>';
+        echo '<td> NEGATIVE </td>';
+    }
+    else 
+    {
+        echo '<td>' . $negative. '</td>';
+        echo '<td> NEUTRAL </td>';
+    }
+
+        echo '</tr>';
+    }
+
+    // Close the CSV file
+    fclose($file);
+
+    // Close the table
+    echo '</table>';
+} else {
+    echo 'Failed to open the CSV file.';
+}
+}
+?>
 
         </div>
         </div>
@@ -598,7 +680,32 @@ sidebarBtn.onclick = function() {
   sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
 }
  </script>
+
+<!-- code for validating the submiting form -->
+<!-- <script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script> -->
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

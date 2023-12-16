@@ -619,7 +619,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 ?>
 <tr>
 <div class="row" style="margin-left:475px;">
-<th colspan="2"><h1 class='text-center' style='font-size:28px; font-weight:bold;'>FINAL RESULT : <p style='color:green;'>POSITIVE</p></h1></th>
+<th colspan="2"><h1 class='text-center' style='font-size:28px; font-weight:bold;'>FINAL RESULT <p style='color:green;'>POSITIVE</p></h1></th>
 </div>
 </tr>
 <?php
@@ -629,7 +629,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
  ?>
  <tr>
  <div class="row" style="margin-left:475px;">
- <th colspan="2"><h1 class='text-center' style='font-size:28px;'>FINAL RESULT : </h1>
+ <th colspan="2"><h1 class='text-center' style='font-size:28px;'>FINAL RESULT </h1>
  <h1 class='text-center' style='font-size:28px;color:red; font-weight:bold;'>NEGATIVE</h1></th>
 </div>
 </tr>
@@ -640,7 +640,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
  ?>
  <tr>
  <div class="row" style="margin-left:475px;">
- <th colspan="2"><h1 class='text-center' style='font-size:28px;'>FINAL RESULT : </h1>
+ <th colspan="2"><h1 class='text-center' style='font-size:28px;'>FINAL RESULT </h1>
  <h1 class='text-center' style='font-size:28px;color:blue; font-weight:bold;'>NEUTRAL</h1></th>
 </div>
 </tr>

@@ -522,7 +522,7 @@ th, td{
           </a>
         </li>
         <li class="log_out">
-          <a href="logout.php">
+          <a href="../logout.php">
             <i class='bx bx-log-out'></i>
             <span class="links_name" style="font-weight:bold;">Log out</span>
           </a>

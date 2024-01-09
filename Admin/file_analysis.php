@@ -18,6 +18,7 @@ session_start();
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css">
      <link rel="icon" type="image/x-icon" href="../images/sentiment-analysis.png">
      <style>
         /* Googlefont Poppins CDN Link */
@@ -520,15 +521,15 @@ textarea {
           </a>
         </li>
         <li>
-          <a href="text_analysis.php" class="active">
-          <i class='bx bx-font' style="color:#fff; font-weight:bold;"></i>
-            <span class="links_name" style="color:#fff; font-weight:bold;">Text Analysis</span>
+          <a href="text_analysis.php">
+          <i class='bx bx-font'></i>
+            <span class="links_name" style="font-weight:bold;">Text Analysis</span>
           </a>
         </li>
         <li>
-          <a href="file_analysis.php">
-          <i class='bx bx-file-blank'></i>
-            <span class="links_name" style="font-weight:bold;">File Analysis</span>
+          <a href="file_analysis.php" class="active">
+          <i class='bx bx-file-blank' style="color:#fff; font-weight:bold;"></i>
+            <span class="links_name" style="color:#fff; font-weight:bold;">File Analysis</span>
           </a>
         </li>
         <li>
@@ -544,7 +545,7 @@ textarea {
           </a>
         </li>
         <li class="log_out">
-          <a href="logout.php">
+          <a href="../logout.php">
             <i class='bx bx-log-out'></i>
             <span class="links_name" style="font-weight:bold;">Log out</span>
           </a>
@@ -609,8 +610,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Check if the file was opened successfully
 if ($file) {
     // Output a table header
-    echo '<table border="1">';
-    echo '<tr><th>Review Text</th><th>Sentiment Score</th><th>Final Result</th>';
+    echo '<table class="table table-bordered table-hover">';
+    echo '<thead class="thead-dark"><tr><th scope="col">Review Text</th><th scope="col">Sentiment Score</th><th scope="col">Final Result</th></thead>';
 
     // Read and display each line of the CSV file
     while (($data = fgetcsv($file)) !== false) {
@@ -635,17 +636,17 @@ if ($file) {
     if($positive > $negative && $positive > $neutral)
     {
         echo '<td>' . $positive. '</td>';
-        echo '<td> POSITIVE </td>';
+        echo '<td style="color:green; font-weight:bold;"> POSITIVE </td>';
     }
     elseif ($negative > $positive && $negative > $neutral) 
     {
         echo '<td>' . $negative. '</td>';
-        echo '<td> NEGATIVE </td>';
+        echo '<td style="color:red; font-weight:bold;"> NEGATIVE </td>';
     }
     else 
     {
         echo '<td>' . $negative. '</td>';
-        echo '<td> NEUTRAL </td>';
+        echo '<td style="color:blue; font-weight:bold;"> NEUTRAL </td>';
     }
 
         echo '</tr>';
@@ -707,5 +708,6 @@ sidebarBtn.onclick = function() {
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js"></script>
 </body>
 </html>

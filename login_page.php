@@ -5,17 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="icon" type="image/x-icon" href="images/sentiment-analysis.png">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <title>LOGIN -- Sentiment Analysis</title>
     <style>
         input[type=email],input[type=passowrd]
         {
             width:25vw;
         }   
+        .back-btn
+        {
+          background: none;
+          outline: none;
+          border: none;
+          font-size: 20px;
+          font-weight: bold;
+        }
     </style>
   </head>
+
   <body>
 
-
+<a href="landing_page.php"><button class="back-btn"><i class='bx bx-arrow-back'></i></button></a>
 
 <div class="container min-vh-100 d-flex justify-content-center align-items-center">
   <form method="POST">

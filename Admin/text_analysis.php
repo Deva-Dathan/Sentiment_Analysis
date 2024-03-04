@@ -509,12 +509,12 @@ th, td{
             <span class="links_name" style="font-weight:bold;">File Analysis</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="audio_analysis.php">
           <i class='bx bx-music'></i>
             <span class="links_name" style="font-weight:bold;">Audio Analysis</span>
           </a>
-        </li>
+        </li> -->
         <li>
           <a href="admin_settings.php">
             <i class='bx bx-cog' ></i>

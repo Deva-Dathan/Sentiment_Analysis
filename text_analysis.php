@@ -6,18 +6,21 @@ if (!isset($_SESSION['analysis_count'])) {
     $_SESSION['analysis_count'] = 0;
 }
 
-// Define the maximum number of analyses allowed
 $max_attempts = 3;
 
 // Calculate the remaining attempts
 $remaining_attempts = $max_attempts - $_SESSION['analysis_count'];
-echo $remaining_attempts;
 
 // Check if the user has reached the analysis limit
 if ($_SESSION['analysis_count'] >= $max_attempts) {
-    // Redirect the user to the purchase page or any other appropriate action
-    header("Location: landing_page.php");
-    exit; // Ensure that script execution stops after redirection
+    // Display a modal with pricing information
+    echo "<script>
+            $(document).ready(function(){
+                $('#pricingModal').modal('show');
+            });
+          </script>";
+    // Stop script execution after showing the modal
+    exit;
 }
 
 // Increment the analysis count for each analysis conducted
@@ -25,22 +28,70 @@ $_SESSION['analysis_count']++;
 
 ?>
 
+<!-- HTML code for the pricing modal -->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <!-- Your existing head section -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <!-- Your existing HTML content -->
+</div>
+
+<!-- Pricing modal -->
+<div class="modal fade" id="pricingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Choose a Plan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Pricing section HTML -->
+                <!-- ======= Pricing Section ======= -->
+                <section id="pricing" class="pricing">
+                    <div class="container" data-aos="fade-up">
+                        <!-- Pricing content goes here -->
+                        <!-- This is the provided pricing section HTML -->
+                    </div>
+                </section><!-- End Pricing Section -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
 
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
+<head>
     <meta charset="UTF-8">
-    <title> Text Analysis -- Sentiment Analysis</title>
+    <title>Text Analysis -- Sentiment Analysis</title>
     <link rel="stylesheet" href="style.css">
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-     <link rel="icon" type="image/x-icon" href="../images/sentiment-analysis.png">
-     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css">
-     <style>
-        /* Googlefont Poppins CDN Link */
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="icon" type="image/x-icon" href="../images/sentiment-analysis.png">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css">
+    <style>
+                /* Googlefont Poppins CDN Link */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 *{
   margin: 0;
@@ -344,121 +395,121 @@ th, td{
   text-align:center;
   padding: 15px;;
 }
-     </style>
-   </head>
+    </style>
+</head>
 <body>
 <div class="container">
-        <div class="title font-weight-bold">TEXT ANALYSIS</div><br>
-        <form id="sentiment-form" method="POST" enctype="multipart/form-data">
+    <div class="title font-weight-bold">TEXT ANALYSIS</div><br>
+    <form id="sentiment-form" method="POST" enctype="multipart/form-data">
         <div>
-        <textarea class="form-control" name="search_fld" id="search_fld" cols="110" rows="13" placeholder="ENTER THE TEXT HERE FOR ANALYSIS"></textarea>
+            <!-- Display remaining attempts in textarea's placeholder -->
+            <textarea class="form-control" name="search_fld" id="search_fld" cols="110" rows="13" placeholder="ENTER THE TEXT HERE FOR ANALYSIS (Remaining attempts: <?php echo $remaining_attempts; ?>)"></textarea>
         </div><br>
 
-        <div id="loading-bar"><div id="progress"></div></div>
-
-          <div class="row">
-          <div class="col-md-3 m-1"><input type="submit" name="analyse_btn" class="btn btn-success w-100" value="Analyse Text"></div>
-          <div class="col-md-3 m-1"><input type="submit" name="bar_btn" class="btn btn-secondary w-100" value="View Bar Graph" style="width:17vw;"></div>
-          <div class="col-md-3 m-1"><input type="submit" name="pie_btn" class="btn btn-primary w-100" value="View Pie Chart" style="width:17vw;"></div>
-          </div>
-</form>
-
-<?php
-include('vendor/autoload.php');
-use Sentiment\Analyzer;
-if($_SERVER["REQUEST_METHOD"] == "POST")
-{
- $text_analysis = $_POST['search_fld'];
- $obj=new Analyzer();
- $result=$obj->getSentiment($text_analysis);
- ?>
-<hr>
-<div class="card">
-  <div class="card-header text-center">SENTIMENT ANALYSIS SCORE</div>
-  <div class="card-body">
-    <br>
-    <h5 class="card-title text-center"><b><?php echo $text_analysis;?></b></h5>
-    <p class="card-text">
-
-
- <div class="container">
- <div style="font-size:28px;">
- <table class="table d-flex justify-content-center">
- <div class="row">
- <tr>
- <th scope="col"><label class="font-weight-bold text-center">POSITIVE</label></th>
- <td><div class="progress ml-3 mt-1" style="width:20vw; height:4vh;">
- <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $result['pos']*100;?>%;" aria-valuenow="<?php echo $result['pos']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['pos'];?>%</div>
- </div>
- </div></td>
- </tr>
-
- <div class="row">
- <tr>
- <th scope="col"><label class="font-weight-bold text-center">NEGATIVE</label></th>
- <td><div class="progress ml-3 mt-1" style="width:20vw; height:4vh;">
- <div class="progress-bar bg-danger" role="progressbar" style="width: <?php echo $result['neg']*100;?>%;" aria-valuenow="<?php echo $result['neg']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['neg'];?>%</div>
- </div>
- </div></td>
- </tr>
-
- <div class="row">
- <tr>
- <th scope="col"><label class="font-weight-bold text-center">NEUTRAL</label></th>
- <td><div class="progress ml-3 mt-1" style="width:20vw; height:4vh;">
- <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo $result['neu']*100;?>%;" aria-valuenow="<?php echo $result['neu']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['neu'];?>%</div>
- </div>
- </div></td>
- </tr>
-
-
- <?php
- if($result['pos'] > $result['neg'] && $result['pos'] > $result['neu'])
- {
-?>
-<tr>
-<div class="row" style="margin-left:475px;">
-<th colspan="2"><h1 class='text-center' style='font-size:28px; font-weight:bold;'>FINAL RESULT <p style='color:green;'>POSITIVE</p></h1></th>
+        <div class="row">
+            <div class="col-md-3 m-1"><input type="submit" name="analyse_btn" class="btn btn-success w-100" value="Analyse Text"></div>
+            <div class="col-md-3 m-1"><input type="submit" name="bar_btn" class="btn btn-secondary w-100" value="View Bar Graph" style="width:17vw;"></div>
+            <div class="col-md-3 m-1"><input type="submit" name="pie_btn" class="btn btn-primary w-100" value="View Pie Chart" style="width:17vw;"></div>
+        </div>
+    </form>
+    <?php
+    include('vendor/autoload.php');
+    use Sentiment\Analyzer;
+    if($_SERVER["REQUEST_METHOD"] == "POST")
+    {
+     $text_analysis = $_POST['search_fld'];
+     $obj=new Analyzer();
+     $result=$obj->getSentiment($text_analysis);
+     ?>
+    <hr>
+    <div class="card">
+      <div class="card-header text-center">SENTIMENT ANALYSIS SCORE</div>
+      <div class="card-body">
+        <br>
+        <h5 class="card-title text-center"><b><?php echo $text_analysis;?></b></h5>
+        <p class="card-text">
+    
+    
+     <div class="container">
+     <div style="font-size:28px;">
+     <table class="table d-flex justify-content-center">
+     <div class="row">
+     <tr>
+     <th scope="col"><label class="font-weight-bold text-center">POSITIVE</label></th>
+     <td><div class="progress ml-3 mt-1" style="width:20vw; height:4vh;">
+     <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $result['pos']*100;?>%;" aria-valuenow="<?php echo $result['pos']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['pos'];?>%</div>
+     </div>
+     </div></td>
+     </tr>
+    
+     <div class="row">
+     <tr>
+     <th scope="col"><label class="font-weight-bold text-center">NEGATIVE</label></th>
+     <td><div class="progress ml-3 mt-1" style="width:20vw; height:4vh;">
+     <div class="progress-bar bg-danger" role="progressbar" style="width: <?php echo $result['neg']*100;?>%;" aria-valuenow="<?php echo $result['neg']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['neg'];?>%</div>
+     </div>
+     </div></td>
+     </tr>
+    
+     <div class="row">
+     <tr>
+     <th scope="col"><label class="font-weight-bold text-center">NEUTRAL</label></th>
+     <td><div class="progress ml-3 mt-1" style="width:20vw; height:4vh;">
+     <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo $result['neu']*100;?>%;" aria-valuenow="<?php echo $result['neu']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['neu'];?>%</div>
+     </div>
+     </div></td>
+     </tr>
+    
+    
+     <?php
+     if($result['pos'] > $result['neg'] && $result['pos'] > $result['neu'])
+     {
+    ?>
+    <tr>
+    <div class="row" style="margin-left:475px;">
+    <th colspan="2"><h1 class='text-center' style='font-size:28px; font-weight:bold;'>FINAL RESULT <p style='color:green;'>POSITIVE</p></h1></th>
+    </div>
+    </tr>
+    <?php
+     }
+     elseif ($result['neg'] > $result['pos'] && $result['neg'] > $result['neu'])
+     {
+     ?>
+     <tr>
+     <div class="row" style="margin-left:475px;">
+     <th colspan="2"><h1 class='text-center' style='font-size:28px;'>FINAL RESULT </h1>
+     <h1 class='text-center' style='font-size:28px;color:red; font-weight:bold;'>NEGATIVE</h1></th>
+    </div>
+    </tr>
+     <?php
+     }
+     else
+     {
+     ?>
+     <tr>
+     <div class="row" style="margin-left:475px;">
+     <th colspan="2"><h1 class='text-center' style='font-size:28px;'>FINAL RESULT </h1>
+     <h1 class='text-center' style='font-size:28px;color:blue; font-weight:bold;'>NEUTRAL</h1></th>
+    </div>
+    </tr>
+    
+     </table>
+     </div>
+     </div>
+     
+     </div>
+     </div>
+    
+    
+    <?php
+     }
+    }
+    ?>
 </div>
-</tr>
-<?php
- }
- elseif ($result['neg'] > $result['pos'] && $result['neg'] > $result['neu'])
- {
- ?>
- <tr>
- <div class="row" style="margin-left:475px;">
- <th colspan="2"><h1 class='text-center' style='font-size:28px;'>FINAL RESULT </h1>
- <h1 class='text-center' style='font-size:28px;color:red; font-weight:bold;'>NEGATIVE</h1></th>
-</div>
-</tr>
- <?php
- }
- else
- {
- ?>
- <tr>
- <div class="row" style="margin-left:475px;">
- <th colspan="2"><h1 class='text-center' style='font-size:28px;'>FINAL RESULT </h1>
- <h1 class='text-center' style='font-size:28px;color:blue; font-weight:bold;'>NEUTRAL</h1></th>
-</div>
-</tr>
 
- </table>
- </div>
- </div>
- 
- </div>
- </div>
-
-
-<?php
- }
-}
-?>
-</div>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js"></script>
+<!-- JavaScript libraries -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js"></script>
 </body>
 </html>

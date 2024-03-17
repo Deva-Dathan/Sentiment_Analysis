@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -25,6 +26,17 @@
 
   <body>
 
+  <?php
+  session_start();
+          if(isset($_SESSION['reg_success']))
+          {
+            ?>
+          <div class="alert alert-success mt-3 text-center font-weight-bold" role="alert"><?php echo $_SESSION['reg_success'];?></div>
+          <?php
+            unset($_SESSION['reg_success']);
+          }
+          ?>
+
 <a href="landing_page.php"><button class="back-btn"><i class='bx bx-arrow-back'></i></button></a>
 
 <div class="container min-vh-100 d-flex justify-content-center align-items-center">
@@ -41,7 +53,14 @@
 
   <!-- Submit button -->
   <button type="submit" name="u_login" class="btn btn-primary btn-block mb-4">Log in</button>
-
+  <a href="register_page.php" class="btn btn-danger btn-block mb-4" style="text-decoration:none;">Register</a>
+    <!-- Register buttons -->
+    <div class="text-center">
+    <div class="col">
+      <!-- Simple link -->
+      <a href="#!">Forgot password</a>
+    </div>
+      </div>
 </form>
 </div>
 
@@ -68,24 +87,9 @@ if(isset($_POST['u_login']))
     {
       while($row = $result->fetch_assoc()) 
       {
-        if($row['u_role'] == 'Admin')
-        {
-            $_SESSION['u_username'] = $username;
-            $_SESSION['u_name'] = $row['u_name'];
-            $_SESSION['u_role'] = $row['u_role'];
-            header("Location: Admin/admin_dash.php");
-        }
-        elseif($row['u_role'] == 'Logined User')
-        {
-            $_SESSION['u_username'] = $username;
-            $_SESSION['u_name'] = $row['u_name'];
-            $_SESSION['u_role'] = $row['u_role'];
-            header("Location: Logined_User/logined_user_dash.php");  
-        }
-        else
-        {
-            echo "Failed";
-        }
+        $_SESSION['u_username'] = $username;
+        $_SESSION['u_name'] = $row['u_name'];
+        header("Location: Admin/text_analysis.php");
       }
     } else {
       echo "0 results";

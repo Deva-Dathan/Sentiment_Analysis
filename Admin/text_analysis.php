@@ -559,113 +559,120 @@ th, td{
 
           <div class="row">
           <div class="col-md-3 m-1"><input type="submit" name="analyse_btn" class="btn btn-success w-100" value="Analyse Text"></div>
-          <div class="col-md-3 m-1"><input type="submit" name="bar_btn" class="btn btn-secondary w-100" value="View Bar Graph" style="width:17vw;"></div>
-          <div class="col-md-3 m-1"><input type="submit" name="pie_btn" class="btn btn-primary w-100" value="View Pie Chart" style="width:17vw;"></div>
           </div>
 </form>
 
 <?php
-include('../vendor/autoload.php');
-use Sentiment\Analyzer;
-if($_SERVER["REQUEST_METHOD"] == "POST")
-{
- $text_analysis = $_POST['search_fld'];
- $obj=new Analyzer();
- $result=$obj->getSentiment($text_analysis);
+if(isset($_POST['analyse_btn'])) {
+  $text = $_POST['search_fld'];
+  $data = array('text' => $text);
+  $url = 'http://127.0.0.1:5000/sentiment'; // URL of the Python Flask server
+
+  $options = array(
+      'http' => array(
+          'header' => "Content-type: application/json\r\n",
+          'method' => 'POST',
+          'content' => json_encode($data)
+      )
+  );
+  $context = stream_context_create($options);
+  $result = file_get_contents($url, false, $context);
+  if ($result === FALSE) {
+      die('Error sending data to server');
+  }
+  $response = json_decode($result, true);
+  $sentiment_score = $response['sentiment_score'];
+  $positive_score = $response['positive_score'];
+  $negative_score = $response['negative_score'];
+  $neutral_score = $response['neutral_score'];
+  $sentiment_label = $response['sentiment_label'];
+  $accuracy = $response['accuracy'];
  ?>
 <hr>
 <div class="card">
   <div class="card-header text-center">SENTIMENT ANALYSIS SCORE</div>
   <div class="card-body">
     <br>
-    <h5 class="card-title text-center"><b><?php echo $text_analysis;?></b></h5>
+    <h5 class="card-title text-center"><b><?php echo $text;?></b></h5>
     <p class="card-text">
 
-
- <div class="container">
- <div style="font-size:28px;">
- <table class="table d-flex justify-content-center">
- <div class="row">
+ <table class="table table-bordered d-flex justify-content-center">
  <tr>
- <th scope="col"><label class="font-weight-bold text-center">POSITIVE</label></th>
- <td><div class="progress ml-3 mt-1" style="width:20vw; height:4vh;">
- <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $result['pos']*100;?>%;" aria-valuenow="<?php echo $result['pos']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['pos'];?>%</div>
- </div>
- </div></td>
+ <th><label class="font-weight-bold" style="width:200px;">Sentiment Score</label></th>
+ <td>
+  <div class="progress ml-3 mt-1" style="width:20vw; height:4vh;"><div class="progress-bar" role="progressbar" style="width: <?php echo $sentiment_score *100;?>%; background-color:#000;" aria-valuenow="<?php echo $sentiment_score*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $sentiment_score*100;?>%</div></div>
+ </td>
  </tr>
 
- <div class="row">
  <tr>
- <th scope="col"><label class="font-weight-bold text-center">NEGATIVE</label></th>
- <td><div class="progress ml-3 mt-1" style="width:20vw; height:4vh;">
- <div class="progress-bar bg-danger" role="progressbar" style="width: <?php echo $result['neg']*100;?>%;" aria-valuenow="<?php echo $result['neg']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['neg'];?>%</div>
+ <th scope="col"><label class="font-weight-bold">Positive</label></th>
+ <td>
+  <div class="progress ml-3 mt-1" style="width:20vw; height:4vh;">
+ <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $positive_score*100;?>%;" aria-valuenow="<?php echo $positive_score*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $positive_score*100;?>%</div>
  </div>
- </div></td>
+</td>
  </tr>
 
- <div class="row">
  <tr>
- <th scope="col"><label class="font-weight-bold text-center">NEUTRAL</label></th>
+ <th scope="col"><label class="font-weight-bold">Negative</label></th>
  <td><div class="progress ml-3 mt-1" style="width:20vw; height:4vh;">
- <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo $result['neu']*100;?>%;" aria-valuenow="<?php echo $result['neu']*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $result['neu'];?>%</div>
+ <div class="progress-bar bg-danger" role="progressbar" style="width: <?php echo $negative_score *100;?>%;" aria-valuenow="<?php echo $negative_score *100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $negative_score*100;?>%</div>
  </div>
- </div></td>
+</td>
  </tr>
 
+ <tr>
+ <th scope="col"><label class="font-weight-bold">Neutral</label></th>
+ <td><div class="progress ml-3 mt-1" style="width:20vw; height:4vh;">
+ <div class="progress-bar" role="progressbar" style="width: <?php echo $neutral_score*100;?>%; background-color:orange;" aria-valuenow="<?php echo $neutral_score*100;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $neutral_score*100;?>%</div>
+ </div>
+ </div>
+</tr>
 
+ <tr>
+ <th scope="col"><label class="font-weight-bold">Accuracy</label></th>
+ <td><div class="progress ml-3 mt-1" style="width:20vw; height:4vh;">
+ <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo $accuracy;?>%;" aria-valuenow="<?php echo $accuracy;?>" aria-valuemin="0" aria-valuemax="1.00"><?php echo $accuracy;?>%</div>
+ </div>
+</td>
+ </tr>
+
+ <tr>
+ <th scope="col"><label class="font-weight-bold">Sentiment Label</label></th>
  <?php
- if($result['pos'] > $result['neg'] && $result['pos'] > $result['neu'])
+ if($sentiment_label == "Positive")
  {
-?>
-<tr>
-<div class="row" style="margin-left:475px;">
-<th colspan="2"><h1 class='text-center' style='font-size:28px; font-weight:bold;'>FINAL RESULT <p style='color:green;'>POSITIVE</p></h1></th>
-</div>
-</tr>
-<?php
+  ?>
+ <td><div class="font-weight-bold" style="color:green;"><?php echo strtoupper($sentiment_label);?></div></td>
+  <?php
  }
- elseif ($result['neg'] > $result['pos'] && $result['neg'] > $result['neu'])
+ elseif($sentiment_label == "Negative")
  {
- ?>
- <tr>
- <div class="row" style="margin-left:475px;">
- <th colspan="2"><h1 class='text-center' style='font-size:28px;'>FINAL RESULT </h1>
- <h1 class='text-center' style='font-size:28px;color:red; font-weight:bold;'>NEGATIVE</h1></th>
-</div>
-</tr>
- <?php
+  ?>
+<td><div class="font-weight-bold" style="color:red;"><?php echo strtoupper($sentiment_label);?></div></td>
+  <?php
  }
- else
+ elseif($sentiment_label == "Neutral")
  {
+  ?>
+<td><div class="font-weight-bold" style="color:blue;"><?php echo strtoupper($sentiment_label);?></div></td>
+  <?php
+ }
  ?>
- <tr>
- <div class="row" style="margin-left:475px;">
- <th colspan="2"><h1 class='text-center' style='font-size:28px;'>FINAL RESULT </h1>
- <h1 class='text-center' style='font-size:28px;color:blue; font-weight:bold;'>NEUTRAL</h1></th>
-</div>
-</tr>
+ </tr>
+
 
  </table>
- </div>
- </div>
+
  
  </div>
  </div>
 
-
-
-
-
-
-    </p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+ <div class="card-footer text-center text-muted">GENERATED BY MACHINE LEARNING</div>
   </div>
-  <div class="card-footer text-muted">GENERATED BY MACHINE LEARNING</div>
 </div>
 
-
 <?php
- }
 }
 ?>
 

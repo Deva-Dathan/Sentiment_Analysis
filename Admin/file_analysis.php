@@ -576,92 +576,117 @@ textarea {
 
         <form method="POST" enctype="multipart/form-data">
 
+        <form action="" method="post" enctype="multipart/form-data">
         <label for="formFile" class="form-label font-weight-bold">UPLOAD THE FILE TO ANALYSIS</label>
-<div class="input-group mb-3">
-  <div class="custom-file">
-    <input type="file" name="fileToUpload"  class="custom-file-input" id="inputGroupFile01" required>
-    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-  </div>
-</div>
-
-<!-- <div class="mb-3">
-  <label for="formFile" class="form-label">Default file input example</label>
-  <input class="form-control" type="file" id="formFile">
-</div> -->
-
+        <div class="input-group mb-3">
+            <div class="custom-file">
+                <input type="file" name="fileToUpload" class="custom-file-input" id="inputGroupFile01" accept=".csv" required onchange="displayFileName()">
+                <label class="custom-file-label" for="inputGroupFile01" id="selectedFileName">Choose file</label>
+            </div>
+        </div>
 <div class="mb-3">
     <button class="btn btn-primary" name="submit_file" type="submit">Upload File</button>
   </div>
   </form>
 
-
-  <?php
-include('../vendor/autoload.php');
-use Sentiment\Analyzer;
-// Open the CSV file for reading
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $targetDirectory = "../uploads/";
-    $targetFile = $targetDirectory . basename($_FILES["fileToUpload"]["name"]);
-
-    $u_file=move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $targetFile);
-
-    $file = fopen($targetFile, 'r');
-
-// Check if the file was opened successfully
-if ($file) {
-    // Output a table header
-    echo '<table class="table table-bordered table-hover">';
-    echo '<thead class="thead-dark"><tr><th scope="col">Review Text</th><th scope="col">Sentiment Score</th><th scope="col">Final Result</th></thead>';
-
-    // Read and display each line of the CSV file
-    while (($data = fgetcsv($file)) !== false) {
-        echo '<tr>';
-        foreach ($data as $value) {
-            echo '<td>' . $value . '</td>';
+  <script>
+        function displayFileName() {
+            var inputFile = document.getElementById('inputGroupFile01');
+            var fileName = inputFile.files[0].name;
+            var selectedFileNameLabel = document.getElementById('selectedFileName');
+            selectedFileNameLabel.innerHTML = fileName;
         }
+    </script>
 
 
+<?php
+if(isset($_POST['submit_file'])) {
+    if ($_FILES['fileToUpload']['error'] === UPLOAD_ERR_OK) {
+        $file_tmp = $_FILES['fileToUpload']['tmp_name'];
+        $file = fopen($file_tmp, 'r');
+        $rows = array();
+        while (($row = fgetcsv($file)) !== FALSE) {
+            $rows[] = $row[0]; // Assuming the text is in the first column
+        }
+        fclose($file);
 
-    $text_analysis = $value;
-    $obj=new Analyzer();
-    $result=$obj->getSentiment($text_analysis);
+        // Display table headings
+        echo "<table class='table table-bordered table-hover'>";
+        echo "<tr class='thead-dark'>";
+        echo "<th scope='col'>Text</th>";
+        echo "<th scope='col'>Sentiment Score</th>";
+        // echo "<th scope='col'>Positive Score</th>";
+        // echo "<th scope='col'>Negative Score</th>";
+        // echo "<th scope='col'>Neutral Score</th>";
+        echo "<th scope='col'>Sentiment Label</th>";
+        echo "<th scope='col'>Accuracy</th>";
+        echo "</tr>";
 
-    $positive = $result['pos'];
-    $negative = $result['neg'];
-    $neutral = $result['neu'];
-    // echo "Positive:" . $positive."<br>";
-    // echo "Negative:" . $negative."<br>";
-    // echo "Neutral:" . $neutral."<br>";
-    
-    if($positive > $negative && $positive > $neutral)
-    {
-        echo '<td>' . $positive. '</td>';
-        echo '<td style="color:green; font-weight:bold;"> POSITIVE </td>';
-    }
-    elseif ($negative > $positive && $negative > $neutral) 
-    {
-        echo '<td>' . $negative. '</td>';
-        echo '<td style="color:red; font-weight:bold;"> NEGATIVE </td>';
-    }
-    else 
-    {
-        echo '<td>' . $negative. '</td>';
-        echo '<td style="color:blue; font-weight:bold;"> NEUTRAL </td>';
-    }
-
-        echo '</tr>';
-    }
-
-    // Close the CSV file
-    fclose($file);
-
-    // Close the table
-    echo '</table>';
-} else {
-    echo 'Failed to open the CSV file.';
+        // Send each row of text to Flask server for sentiment analysis
+        foreach ($rows as $text) {
+          $i=1;
+            $url = 'http://127.0.0.1:5000/sentiment'; // URL of the Python Flask server
+            
+            // Prepare data
+            $data = array('text' => $text);
+            
+            // Initiate cURL request
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            
+            // Execute the request
+            $result = curl_exec($ch);
+            curl_close($ch);
+            
+            // Check if the request was successful
+            if ($result === FALSE) {
+                die('Error sending data to server');
+            }
+            $response = json_decode($result, true);
+            
+            // Check if $response is null or not properly populated
+            if ($response !== null && isset($response['sentiment_score']) && isset($response['positive_score']) && isset($response['negative_score']) && isset($response['neutral_score']) && isset($response['sentiment_label']) && isset($response['accuracy'])) {
+                // Display results in table rows
+                echo "<tr>";
+                echo "<td>".$text."</td>";
+                // Display sentiment score, positive score, negative score, neutral score, sentiment label, and accuracy
+                echo "<td>".$response['sentiment_score']*100  ."</td>";
+                // echo "<td>".$response['positive_score']*100  . "%". "</td>";
+                // echo "<td>".$response['negative_score']*100    . "%". "</td>";
+                // echo "<td>".$response['neutral_score']*100     . "%". "</td>";
+$color = '';
+switch ($response['sentiment_label']) {
+    case "Positive":
+        $color = 'green';
+        break;
+    case "Negative":
+        $color = 'red';
+        break;
+    case "Neutral":
+        $color = 'blue';
+        break;
+    default:
+        $color = 'black'; // Default color if sentiment label is not recognized
 }
+                echo "<td><div class=\"font-weight-bold\" style=\"color:$color;\">". strtoupper($response['sentiment_label']) . "</div></td>";
+                echo "<td>".$response['accuracy']."</td>";
+                echo "</tr>";
+            } else {
+                echo "<tr><td colspan='7'>Error: Unable to retrieve sentiment analysis data for the text '".$text."'</td></tr>";
+            }
+        }
+        // Close table
+        echo "</table>";
+    } else {
+        echo "Error uploading file.";
+    }
 }
 ?>
+
+
 
         </div>
         </div>

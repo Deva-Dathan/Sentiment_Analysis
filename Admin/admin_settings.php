@@ -17,7 +17,8 @@ session_start();
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
      <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css">
      <link rel="icon" type="image/x-icon" href="../images/sentiment-analysis.png">
      <style>
@@ -574,64 +575,61 @@ textarea {
         <div class="col-md-11 recent-sales box">
         <div class="title font-weight-bold">SETTINGS</div><br>
 
-        <form class="needs-validation" novalidate method="POST" enctype="multipart/form-data">
-  <div class="form-row">
-    <div class="col-md-6 mb-3">
-      <label for="validationCustom01">First name</label>
-      <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
-      <div class="valid-feedback">
-        Looks good!
-      </div>
+        <?php
+        include("../db_connection.php");
+          if(isset($_POST['changePassword']))
+          {
+            $email = $_SESSION['u_username'];
+            $old = md5($_POST['oldPassword']);
+            $new = md5($_POST['newPassword']);
+            $confirm = md5($_POST['confirmPassword']);
+
+            $sql = "SELECT u_password FROM users WHERE u_username = '$email'";
+            $result = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result) > 0) 
+            {
+                while($row = mysqli_fetch_assoc($result)) 
+                {
+                    if($row['u_password'] == $old)
+                    {
+                        if($new == $confirm)
+                        {
+                            $update_pw = "UPDATE users SET u_password = '$confirm' WHERE u_username='$email'";
+                            $conn->query($update_pw);
+                            echo '<div class="alert alert-success" role="alert">PASSWORD UPDATED SUCCESSFULLY</div>';
+                        }
+                        else
+                        {
+                            echo '<div class="alert alert-danger" role="alert">NEW PASSWORD & CONFIRM PASSWORD IS MISMATCHING</div>';
+                        }
+                    }
+                    else
+                    {
+                        echo '<div class="alert alert-danger" role="alert">OLD PASSWORD IS MISMATCHING</div>';
+                    }
+                }
+            } 
+          }
+          ?>
+
+<br><br>
+          <div class="password-change-container mt-3">
+    <div class="password-change-form bg-grey mt-n5">
+        <form method="POST">
+        <h3 class="text-center font-weight-bold mb-3">CHANGE PASSWORD</h3>
+            <div class="form-group">
+                <input type="password" name="oldPassword" class="form-control" placeholder="Old Password">
+            </div>
+            <div class="form-group">
+                <input type="password" name="newPassword" class="form-control" placeholder="New Password">
+            </div>
+            <div class="form-group">
+                <input type="password" name="confirmPassword" class="form-control" placeholder="Confirm New Password">
+            </div>
+            <button type="submit" name="changePassword" class="btn btn-primary float-right">Change Password</button>
+        </form>
     </div>
-    <div class="col-md-6 mb-3">
-      <label for="validationCustom02">Last name</label>
-      <input type="text" class="form-control" id="validationCustom02" value="Otto" required>
-      <div class="valid-feedback">
-        Looks good!
-      </div>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="col-md-6 mb-3">
-      <label for="validationCustom03">City</label>
-      <input type="text" class="form-control" id="validationCustom03" required>
-      <div class="invalid-feedback">
-        Please provide a valid city.
-      </div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <label for="validationCustom04">State</label>
-      <select class="custom-select" id="validationCustom04" required>
-        <option selected disabled value="">Choose...</option>
-        <option>...</option>
-      </select>
-      <div class="invalid-feedback">
-        Please select a valid state.
-      </div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <label for="validationCustom05">Zip</label>
-      <input type="text" class="form-control" id="validationCustom05" required>
-      <div class="invalid-feedback">
-        Please provide a valid zip.
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-      <label class="form-check-label" for="invalidCheck">
-        Agree to terms and conditions
-      </label>
-      <div class="invalid-feedback">
-        You must agree before submitting.
-      </div>
-    </div>
-  </div>
-  <div class="mb-3">
-    <button class="btn btn-primary" name="submit_file" type="submit">Update Details</button>
-  </div>
-  </form>
+</div>
 
 <script>
 // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -699,8 +697,13 @@ sidebarBtn.onclick = function() {
 })()
 </script> -->
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js"></script>
+<script async src="https://cdn.ampproject.org/v0.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script async src="https://cdn.ampproject.org/v0.js"></script> 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </body>
 </html>

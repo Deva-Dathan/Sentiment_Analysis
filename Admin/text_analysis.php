@@ -681,16 +681,22 @@ if(isset($_POST['analyse_btn'])) {
   <canvas id="sentimentBarGraph" width="100" height="100"></canvas>
   </div>
 </div>
-                 <!-- Add smaller canvas for pie chart -->
-                 
-                
-                <!-- Add smaller canvas for bar graph -->
-                
+<br><br>
+<div class="row">
+  <div class="col-md-6">
+  <canvas id="sentimentLineChart" width="200" height="200"></canvas>
+  </div>
+  <div class="col-md-6">
+  <canvas id="sentimentScatterPlot" width="200" height="200"></canvas>
+  </div>
+</div>
     
-                <!-- JavaScript code for creating pie chart and bar graph -->
+                <!-- JavaScript code for creating pie chart, bar graph, line chart, scatter plot, and heatmap -->
                 <script>
                     var ctxPie = document.getElementById('sentimentPieChart').getContext('2d');
                     var ctxBar = document.getElementById('sentimentBarGraph').getContext('2d');
+                    var ctxLine = document.getElementById('sentimentLineChart').getContext('2d');
+                    var ctxScatter = document.getElementById('sentimentScatterPlot').getContext('2d');
                     
                     var pieChart = new Chart(ctxPie, {
                         type: 'pie',
@@ -732,6 +738,77 @@ if(isset($_POST['analyse_btn'])) {
                                         callback: function(value) {
                                             return value + '%';
                                         }
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                    
+                    var lineChart = new Chart(ctxLine, {
+                        type: 'line',
+                        data: {
+                            labels: ['Positive', 'Negative', 'Neutral'],
+                            datasets: [{
+                                label: 'Sentiment Trend',
+                                data: [<?php echo $positive_score;?>, <?php echo $negative_score;?>, <?php echo $neutral_score;?>],
+                                borderColor: '#007bff',
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Sentiment Trend Over Time'
+                            },
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        callback: function(value) {
+                                            return value + '%';
+                                        }
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                    
+                    var scatterPlot = new Chart(ctxScatter, {
+                        type: 'scatter',
+                        data: {
+                            datasets: [{
+                                label: 'Sentiment Scatter Plot',
+                                data: [{
+                                    x: <?php echo $positive_score;?>,
+                                    y: <?php echo $accuracy;?>
+                                }, {
+                                    x: <?php echo $negative_score;?>,
+                                    y: <?php echo $accuracy;?>
+                                }, {
+                                    x: <?php echo $neutral_score;?>,
+                                    y: <?php echo $accuracy;?>
+                                }],
+                                backgroundColor: ['#28a745', '#dc3545', '#ffc107']
+                            }]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Sentiment vs Accuracy'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    type: 'linear',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Sentiment Score'
+                                    }
+                                }],
+                                yAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Accuracy'
                                     }
                                 }]
                             }

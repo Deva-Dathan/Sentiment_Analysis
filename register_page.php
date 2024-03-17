@@ -24,129 +24,139 @@ $conn->close();
 }
 ?>
 
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<style>
-    @media only screen and (max-device-width:540px) {
-    	   .mobileLabel{
-   text-align: left;
-   }
-   	 .mobilePad{
-   margin-left: 4em;
-   }
+<!DOCTYPE html>
+<!---Coding By CodingLab | www.codinglabweb.com--->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!--<title>Registration Form in HTML CSS</title>-->
+    <!---Custom CSS File--->
+    <style>
+      /* Import Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
-@media only screen and (max-device-width:750px) and
-	(orientation:landscape) {
-.mobileLabel{
-   text-align: left;
-   }
-    .mobilePad{
-   margin-left: 11%;
-   }
-	}
-		.boxStyle{
-margin-left: 20%;width: 60%;
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgb(130, 106, 251);
+}
+.container {
+  position: relative;
+  max-width: 700px;
+  width: 100%;
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+.container header {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: 500;
+  text-align: center;
+}
+.container .form {
+  margin-top: 30px;
+}
+.form .input-box {
+  width: 100%;
+  margin-top: 20px;
+}
+.input-box label {
+  color: #333;
+}
+.form :where(.input-box input, .select-box) {
+  position: relative;
+  height: 50px;
+  width: 100%;
+  outline: none;
+  font-size: 1rem;
+  color: #707070;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0 15px;
+}
+.input-box input:focus {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+.form .column {
+  display: flex;
+  column-gap: 15px;
 }
 
-</style>
-<!------ Include the above in your HEAD tag ---------->
+.form .passwordColumn {
+  display: flex;
+  column-gap: 15px;
+}
 
-<div class="container">
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3 boxStyle" style="padding-right: 0px!important;padding-left: 0px!important;">
-		   <div class="panel-body" style="padding-right: 4px!important;padding-left: 4px!important;">
-                 <form method="post"  class="form-horizontal" role="form">
-				<fieldset class="landscape_nomargin" style="min-width: 0;padding: .35em .625em .75em!important;margin:0 2px;border: 2px solid silver!important;margin-bottom: 10em;">
-			<legend style="border-bottom: none;width: inherit;!important;padding:inherit; font-weight:bold;" class="legend">REGISTRATION FORM</legend>
-		
-			<div class="form-group">
-						 <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12" style="text-align: right!important;">
-						 <span style="color: red">*</span> <span style="font-size: 8pt; font-weight:bold;">mandatory fields</span>
-						 </div>
-						</div>	
-			 <div class="form-group" style="margin-bottom: 0px;">
-                    <div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message10" style=" font-size: 10pt;padding-left: 0px;"></div>                      
+.form button {
+  height: 55px;
+  width: 100%;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: 30px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgb(130, 106, 251);
+}
+.form button:hover {
+  background: rgb(88, 56, 250);
+}
+/*Responsive*/
+@media screen and (max-width: 500px) {
+  .form .column {
+    flex-wrap: wrap;
+  }
+}
+    </style>
+  </head>
+  <body>
+    <section class="container">
+      <header>Registration Form</header>
+      <form action="#" class="form">
+        <div class="input-box">
+          <label>Full Name</label>
+          <input type="text" placeholder="Enter full name" required />
+        </div>
 
-                    </div>				
-		 <div class="form-group">
-                     <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
-                       <div class="col-sm-3 col-md-3 col-lg-4 col-xs-10 mobileLabel" style=" padding-top: 7px; text-align: right;">
-                            Full Name<span style="color: red">*</span> :</div>
-                        
-						<div class="col-sm-7 col-md-7 col-lg-6 col-xs-9 input-group mobilePad" style="font-weight:600;">
-						
-						<input style="border-radius: 4px!important;" type="text"  class="form-control" name="u_name">                   
-                                         
-                        </div>
-                       <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
-                    </div>
-         <div class="form-group">
-                     <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
-                       <div class="col-sm-3 col-md-3 col-lg-4 col-xs-10 mobileLabel" style=" padding-top: 7px; text-align: right;">
-                            Your Email <span style="color: red">*</span> :</div>
-                        
-						<div class="col-sm-7 col-md-7 col-lg-6 col-xs-9 input-group mobilePad" style="font-weight:600;">
-						
-						<input style="border-radius: 4px!important;" type="email"  class="form-control" name="username">                   
-                                         
-                        </div>
-                       <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
-                    </div>  
-        <div class="form-group " style="margin-bottom: 5px;">
-                     <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
-                       <div class="col-sm-3 col-md-3 col-lg-4 col-xs-10 mobileLabel" style=" padding-top: 7px;text-align: right;">
-                          Your Password <span style="color: red">*</span> :</div>
-                        
-						<div class="col-sm-7 col-md-7 col-lg-6 col-xs-9 input-group mobilePad">
-						
-						<input type="password" name="password" id="password" class="form-control">                
-                                      
-                        </div>
-                         <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
-                        
-                    </div>  
-                 <div class="form-group" style="margin-bottom: 5px;">
-                    <div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message8" style=" font-size: 10pt;padding-left: 0px;"></div>                      
+        <div class="input-box">
+          <label>Email Address</label>
+          <input type="text" placeholder="Enter email address" required />
+        </div>
 
-                    		<div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message" style=" font-size: 10pt;"></div>
-							<div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message2" style=" font-size: 10pt;"></div>
-							<div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message3" style=" font-size: 10pt;"></div>
-							<div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message4" style=" font-size: 10pt;"></div>
-							<div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message5" style=" font-size: 10pt;"></div> 
-							<div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message6" style=" font-size: 10pt;padding-left: 0px;"></div>
-							<div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message7" style=" font-size: 10pt;padding-left: 0px;"></div>                      
-       
-                    </div>
-                  <div class="form-group">
-                     <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
-                       <div class="col-sm-3 col-md-3 col-lg-4 col-xs-10 mobileLabel" style=" padding-top: 7px;text-align: right;">
-                          Confirm Your Password <span style="color: red">*</span> :</div>
-                        
-						<div class="col-sm-7 col-md-7 col-lg-6 col-xs-9 input-group mobilePad">
-						
-						<input type="password" name="verifypassword" id="verifypassword" class="form-control">                   
-                                         
-                        </div>
-                       <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
-                    </div>	
-         <div class="form-group">
-                     <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12" id="message1" style="font-weight: bold; text-align: center;font-size: 10pt;">
-						</div>
-						 </div>	            
-        <div class="form-group">
-									<div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
-									<div class="col-sm-11 col-md-11 col-lg-11 col-xs-10" style="text-align:center;">
-										<button id="valuser" type="submit" class="btn btn-success">Register</button>
-									</div>
+        <div class="column">
+          <div class="input-box">
+            <label>Phone Number</label>
+            <input type="number" placeholder="Enter phone number" required />
+          </div>
+        </div>
 
-									<div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
-								</div>   
-			</fieldset>
-		
-				</form>
-                </div>
-		    </div>
-		    
-	</div>
-</div>
+        <div class="passwordColumn">
+          <div class="input-box">
+            <label>Password</label>
+            <input type="password" placeholder="Password" required />
+          </div>
+          <div class="input-box">
+            <label>Confirm Password</label>
+            <input type="password" placeholder="Confirm Password" required />
+          </div>
+        </div>
+
+        <button>Submit</button>
+      </form>
+    </section>
+  </body>
+</html>

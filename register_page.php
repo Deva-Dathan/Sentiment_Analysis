@@ -5,12 +5,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 include("db_connection.php");
 $name = $_POST['u_name'];
 $username = $_POST['username'];
+$mobile = $_POST['mobile'];
 $password = md5($_POST['password']);
 $verifypw = md5($_POST['verifypassword']);
 
 if($password == $verifypw)
 {
-$sql = "INSERT INTO users (u_name, u_username, u_password, u_role) VALUES ('$name', '$username', '$password', 'Logined User')";
+$sql = "INSERT INTO users (u_name, mobile, u_username, u_password) VALUES ('$name', '$mobile', '$username', '$verifypw')";
 
 if ($conn->query($sql) === TRUE) {
   $_SESSION['reg_success'] = "REGISTERATION SUCCESSFULLY";
@@ -126,36 +127,36 @@ body {
   <body>
     <section class="container">
       <header>Registration Form</header>
-      <form action="#" class="form">
+      <form method="POST" class="form">
         <div class="input-box">
           <label>Full Name</label>
-          <input type="text" placeholder="Enter full name" required />
+          <input type="text" placeholder="Enter full name" name="u_name" required />
         </div>
 
         <div class="input-box">
           <label>Email Address</label>
-          <input type="text" placeholder="Enter email address" required />
+          <input type="text" placeholder="Enter email address" name="username" required />
         </div>
 
         <div class="column">
           <div class="input-box">
             <label>Phone Number</label>
-            <input type="number" placeholder="Enter phone number" required />
+            <input type="number" placeholder="Enter phone number" name="mobile" required />
           </div>
         </div>
 
         <div class="passwordColumn">
           <div class="input-box">
             <label>Password</label>
-            <input type="password" placeholder="Password" required />
+            <input type="password" placeholder="Password" name="password" required />
           </div>
           <div class="input-box">
             <label>Confirm Password</label>
-            <input type="password" placeholder="Confirm Password" required />
+            <input type="password" placeholder="Confirm Password" name="verifypassword" required />
           </div>
         </div>
 
-        <button>Submit</button>
+        <button type="submit">Register</button>
       </form>
     </section>
   </body>

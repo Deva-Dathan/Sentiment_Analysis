@@ -96,22 +96,25 @@ body{
   </head>
 
   <body>
-
-  <?php
-          if(isset($_SESSION['reg_success']))
-          {
-            ?>
-          <div class="alert alert-success mt-3 text-center font-weight-bold" role="alert"><?php echo $_SESSION['reg_success'];?></div>
-          <?php
-            unset($_SESSION['reg_success']);
-          }
-          ?>
+  
 <form method="post">
 <div class="container" onclick="">
   <div class="top"></div>
   <div class="bottom"></div>
   <div class="center">
     <h2>Please Sign In</h2>
+    <h5>
+    <?php
+  session_start();
+  if(isset($_SESSION['reg_success']))
+  {
+    ?>
+  <div class="alert alert-success mt-3 text-center font-weight-bold" role="alert"><?php echo $_SESSION['reg_success'];?></div>
+  <?php
+    unset($_SESSION['reg_success']);
+  }
+  ?>
+    </h5>
     <input type="email" name="u_username" id="form2Example1" class="form-control" placeholder="USERNAME" required>
     <input type="password" name="u_password" id="form2Example2" class="form-control" placeholder="PASSWORD" required>
 
@@ -140,7 +143,6 @@ body{
 
 
 <?php
-session_start();
 include('db_connection.php');
 if(isset($_POST['u_login']))
 {

@@ -80,7 +80,7 @@ if(isset($_POST['u_login']))
     $username = $_POST['u_username'];
     $password = md5($_POST['u_password']);
 
-    $sql = "SELECT u_name, u_role FROM users WHERE u_username='$username' AND u_password='$password'";
+    $sql = "SELECT u_name FROM users WHERE u_username='$username' AND u_password='$password'";
     $result = $conn->query($sql);
     
     if ($result->num_rows > 0) 

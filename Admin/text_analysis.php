@@ -176,6 +176,7 @@ nav .search-box .bx-search{
 .home-section nav .profile-details{
   display: flex;
   align-items: center;
+  justify-content: center;
   background: #F5F6FA;
   border: 2px solid #EFEEF1;
   border-radius: 6px;
@@ -183,21 +184,18 @@ nav .search-box .bx-search{
   min-width: 190px;
   padding: 0 15px 0 2px;
 }
-nav .profile-details img{
-  height: 40px;
-  width: 40px;
-  border-radius: 6px;
-  object-fit: cover;
-}
+
 nav .profile-details .admin_name{
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 500;
+  text-align:center;
   color: #333;
   margin: 0 10px;
   white-space: nowrap;
 }
 nav .profile-details i{
-  font-size: 25px;
+  font-size: 35px;
+  text-align:center;
   color: #333;
 }
 .home-section .home-content{
@@ -475,13 +473,36 @@ textarea {
     width: calc(100% - 60px);
   }
 }
-th, td{
-  height:10vh;
-  width:15vw;
-  vertical-align: middle;
-  text-align:center;
-  padding: 15px;;
-}
+
+#loading-bar {
+            display: none;
+            background-color: #f1f1f1;
+            width: 100%;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            color: #333;
+            position: relative;
+        }
+
+        #progress {
+            width: 0;
+            height: 100%;
+            background-color: #4caf50;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: progressAnimation 3s ease-in-out forwards;
+        }
+
+        @keyframes progressAnimation {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 100%;
+            }
+        }
      </style>
    </head>
 <body>
@@ -491,12 +512,6 @@ th, td{
       <span class="logo_name">SENTIMENT ANALYSIS</span>
     </div>
       <ul class="nav-links">
-        <li>
-          <a href="admin_dash.php">
-            <i class='bx bx-grid-alt' style="font-weight:bold;"></i>
-            <span class="links_name" style="font-weight:bold;">Dashboard</span>
-          </a>
-        </li>
         <li>
           <a href="text_analysis.php" class="active">
           <i class='bx bx-font' style="color:#fff; font-weight:bold;"></i>
@@ -509,12 +524,6 @@ th, td{
             <span class="links_name" style="font-weight:bold;">File Analysis</span>
           </a>
         </li>
-        <!-- <li>
-          <a href="audio_analysis.php">
-          <i class='bx bx-music'></i>
-            <span class="links_name" style="font-weight:bold;">Audio Analysis</span>
-          </a>
-        </li> -->
         <li>
           <a href="admin_settings.php">
             <i class='bx bx-cog' ></i>
@@ -540,7 +549,6 @@ th, td{
         <i class='bx bx-search' ></i>
       </div>
       <div class="profile-details">
-        <img src="images/profile.jpg" alt="">
         <span class="admin_name"><?php echo $_SESSION['u_name'];?></span>    
       </div>
     </nav>

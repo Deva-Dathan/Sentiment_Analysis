@@ -20,6 +20,7 @@ session_start();
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
      <link rel="icon" type="image/x-icon" href="../images/sentiment-analysis.png">
      <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
      <style>
         /* Googlefont Poppins CDN Link */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
@@ -671,6 +672,72 @@ if(isset($_POST['analyse_btn'])) {
 
 
  </table>
+
+<div class="row">
+  <div class="col-md-6">
+  <canvas id="sentimentPieChart" width="100" height="100"></canvas>
+  </div>
+  <div class="col-md-6">
+  <canvas id="sentimentBarGraph" width="100" height="100"></canvas>
+  </div>
+</div>
+                 <!-- Add smaller canvas for pie chart -->
+                 
+                
+                <!-- Add smaller canvas for bar graph -->
+                
+    
+                <!-- JavaScript code for creating pie chart and bar graph -->
+                <script>
+                    var ctxPie = document.getElementById('sentimentPieChart').getContext('2d');
+                    var ctxBar = document.getElementById('sentimentBarGraph').getContext('2d');
+                    
+                    var pieChart = new Chart(ctxPie, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Positive', 'Negative', 'Neutral'],
+                            datasets: [{
+                                label: 'Sentiment Scores',
+                                data: [<?php echo $positive_score;?>, <?php echo $negative_score;?>, <?php echo $neutral_score;?>],
+                                backgroundColor: ['#28a745', '#dc3545', '#ffc107']
+                            }]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Sentiment Distribution'
+                            }
+                        }
+                    });
+    
+                    var barGraph = new Chart(ctxBar, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Positive', 'Negative', 'Neutral'],
+                            datasets: [{
+                                label: 'Sentiment Scores',
+                                data: [<?php echo $positive_score;?>, <?php echo $negative_score;?>, <?php echo $neutral_score;?>],
+                                backgroundColor: ['#28a745', '#dc3545', '#ffc107']
+                            }]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Sentiment Scores'
+                            },
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        callback: function(value) {
+                                            return value + '%';
+                                        }
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                </script>
 
  
  </div>

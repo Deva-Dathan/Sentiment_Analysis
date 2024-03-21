@@ -602,7 +602,66 @@ if(isset($_POST['analyse_btn'])) {
   <div class="card-header text-center">SENTIMENT ANALYSIS SCORE</div>
   <div class="card-body">
     <br>
-    <h5 class="card-title text-center"><b><?php echo $text;?></b></h5>
+    <h5 class="card-title text-center"><b>
+
+<?php
+// Arrays of positive, negative, and neutral words
+$positive_words = ["good", "happy", "love", "joyful", "excellent", "amazing", "wonderful", "fantastic", "great", "awesome", "delightful", "pleasurable", "content", "satisfied", "upbeat", "glad", "ecstatic", "positive", "terrific", "superb", "sensational", "exhilarating", "beautiful", "exciting", "brilliant", "perfect", "lovely", "splendid", "vibrant", "charming", "celebrate", "accomplish", "success"];
+$negative_words = ["bad", "sad", "lose", "unhappy", "terrible", "kill", "hate", "disappointing", "horrible", "awful", "miserable", "angry", "disgusted", "depressed", "dreadful", "grim", "negative", "disastrous", "annoyed", "frustrated", "stressed", "worried", "difficult", "painful", "fail", "ugly", "unfortunate", "tragic", "regret", "failure", "stressful", "hopeless", "devastating"];
+$neutral_words = ["okay", "fine", "average", "neutral", "normal", "standard", "routine", "typical", "moderate", "indifferent", "common", "usual", "ordinary", "tolerable", "fair", "middling", "so-so", "passable", "indifferent", "indistinct", "ambiguous", "bland", "routine", "ordinary", "regular", "commonplace", "typical", "mundane", "plain", "standard", "unremarkable", "generic", "routine", "predictable"];
+
+
+if ($sentiment_label == "Positive") 
+{
+  $words = explode(" ", $text);
+  $highlighted_sentence = array();
+  
+  foreach ($words as $word) {
+      $lowercase_word = strtolower($word);
+      if (in_array($lowercase_word, array_map('strtolower', $positive_words))) {
+          $highlighted_sentence[] = "<span style='background-color:green;'>$word</span>";
+      }else {
+          $highlighted_sentence[] = $word;
+      }
+  }
+  
+  echo implode(" ", $highlighted_sentence);
+} 
+elseif ($sentiment_label == "Negative") 
+{
+  $words = explode(" ", $text);
+  $highlighted_sentence = array();
+  
+  foreach ($words as $word) {
+      $lowercase_word = strtolower($word);
+      if(in_array($lowercase_word, array_map('strtolower', $negative_words))) {
+          $highlighted_sentence[] = "<span style='background-color:red;'>$word</span>";
+      }else {
+          $highlighted_sentence[] = $word;
+      }
+  }
+  
+  echo implode(" ", $highlighted_sentence);
+} 
+else 
+{
+  $words = explode(" ", $text);
+  $highlighted_sentence = array();
+  
+  foreach ($words as $word) {
+      $lowercase_word = strtolower($word);
+      if (in_array($lowercase_word, array_map('strtolower', $neutral_words))) {
+          $highlighted_sentence[] = "<span style='background-color:orange;'>$word</span>";
+      } else {
+          $highlighted_sentence[] = $word;
+      }
+  }
+  
+  echo implode(" ", $highlighted_sentence);
+}
+?>
+    
+    </b></h5>
     <p class="card-text">
 
  <table class="table table-bordered d-flex justify-content-center">
@@ -652,19 +711,19 @@ if(isset($_POST['analyse_btn'])) {
  if($sentiment_label == "Positive")
  {
   ?>
- <td><div class="font-weight-bold" style="color:green;"><?php echo strtoupper($sentiment_label);?></div></td>
+ <td><div class="font-weight-bold text-center" style="color:green;"><?php echo strtoupper($sentiment_label);?></div></td>
   <?php
  }
  elseif($sentiment_label == "Negative")
  {
   ?>
-<td><div class="font-weight-bold" style="color:red;"><?php echo strtoupper($sentiment_label);?></div></td>
+<td><div class="font-weight-bold text-center" style="color:red;"><?php echo strtoupper($sentiment_label);?></div></td>
   <?php
  }
  elseif($sentiment_label == "Neutral")
  {
   ?>
-<td><div class="font-weight-bold" style="color:blue;"><?php echo strtoupper($sentiment_label);?></div></td>
+<td><div class="font-weight-bold text-center" style="color:blue;"><?php echo strtoupper($sentiment_label);?></div></td>
   <?php
  }
  ?>

@@ -636,7 +636,66 @@ if(isset($_POST['submit_file'])) {
             if ($response !== null && isset($response['sentiment_score']) && isset($response['positive_score']) && isset($response['negative_score']) && isset($response['neutral_score']) && isset($response['sentiment_label']) && isset($response['accuracy'])) {
                 // Display results in table rows
                 echo "<tr>";
-                echo "<td>".$text."</td>";
+                ?>
+                <td>
+                  <?php
+                  // Arrays of positive, negative, and neutral words
+$positive_words = ["good", "happy", "love", "joyful", "Impressed", "excellent", "amazing", "wonderful", "fantastic", "great", "awesome", "delightful", "pleasurable", "content", "satisfied", "upbeat", "glad", "ecstatic", "positive", "terrific", "superb", "sensational", "exhilarating", "beautiful", "exciting", "brilliant", "perfect", "lovely", "splendid", "vibrant", "charming", "celebrate", "accomplish", "success"];
+$negative_words = ["bad", "sad", "lose", "though", "unhappy", "terrible", "kill", "hate", "disappointing", "horrible", "awful", "miserable", "angry", "disgusted", "depressed", "dreadful", "grim", "negative", "disastrous", "annoyed", "frustrated", "stressed", "worried", "difficult", "painful", "fail", "ugly", "unfortunate", "tragic", "regret", "failure", "stressful", "hopeless", "devastating"];
+$neutral_words = ["okay", "fine", "average", "bought", "neutral", "normal", "standard", "routine", "typical", "moderate", "indifferent", "common", "usual", "ordinary", "tolerable", "fair", "middling", "so-so", "passable", "indifferent", "indistinct", "ambiguous", "bland", "routine", "ordinary", "regular", "commonplace", "typical", "mundane", "plain", "standard", "unremarkable", "generic", "routine", "predictable"];
+$sentiment_label = $response['sentiment_label'];
+
+if ($sentiment_label == "Positive") 
+{
+  $words = explode(" ", $text);
+  $highlighted_sentence = array();
+  
+  foreach ($words as $word) {
+      $lowercase_word = strtolower($word);
+      if (in_array($lowercase_word, array_map('strtolower', $positive_words))) {
+          $highlighted_sentence[] = "<span style='background-color:green;'>$word</span>";
+      }else {
+          $highlighted_sentence[] = $word;
+      }
+  }
+  
+  echo implode(" ", $highlighted_sentence);
+} 
+elseif ($sentiment_label == "Negative") 
+{
+  $words = explode(" ", $text);
+  $highlighted_sentence = array();
+  
+  foreach ($words as $word) {
+      $lowercase_word = strtolower($word);
+      if(in_array($lowercase_word, array_map('strtolower', $negative_words))) {
+          $highlighted_sentence[] = "<span style='background-color:red;'>$word</span>";
+      }else {
+          $highlighted_sentence[] = $word;
+      }
+  }
+  
+  echo implode(" ", $highlighted_sentence);
+} 
+else 
+{
+  $words = explode(" ", $text);
+  $highlighted_sentence = array();
+  
+  foreach ($words as $word) {
+      $lowercase_word = strtolower($word);
+      if (in_array($lowercase_word, array_map('strtolower', $neutral_words))) {
+          $highlighted_sentence[] = "<span style='background-color:orange;'>$word</span>";
+      } else {
+          $highlighted_sentence[] = $word;
+      }
+  }
+  
+  echo implode(" ", $highlighted_sentence);
+}
+                  ?>
+                </td>
+                <?php
                 // Display sentiment score, positive score, negative score, neutral score, sentiment label, and accuracy
                 echo "<td>".$response['sentiment_score']*100  ."</td>";
                 // echo "<td>".$response['positive_score']*100  . "%". "</td>";
